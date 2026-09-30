@@ -1,0 +1,6 @@
+1.) powershell: irm https://ollama.com/install.ps1 | iex
+2.) powershell: ollama pull qwen3.5:2b-q4_K_M
+3.) u PowerShellu otvori mapu projekta i kreiraj venv: py -m venv .venv
+4.) aktiviraj venv: .\.venv\Scripts\Activate.ps1
+5.) instaliraj pakete: python -m pip install -r requirements.txt
+6.) pokreni agenta: python agent.py
