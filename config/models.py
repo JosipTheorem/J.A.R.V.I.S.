@@ -5,8 +5,8 @@ from config import settings #load the project's .env before configuring a model
 
 
 #model_name = "qwen3.5:9b-q4_K_M"
-#model_name = "qwen3.5:2b-q4_K_M"
-model_name = "gemma4:e4b-it-q4_K_M"
+model_name = "qwen3.5:2b-q4_K_M"
+#model_name = "gemma4:e4b-it-q4_K_M"
 
 
 def get_model():
