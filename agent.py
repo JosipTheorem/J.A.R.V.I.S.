@@ -1,28 +1,38 @@
-import os
-
 from langchain.agents import create_agent
-from langchain_ollama import ChatOllama
-from langchain_openai import ChatOpenAI
+from langgraph.checkpoint.memory import InMemorySaver
 
-from dotenv import load_dotenv
-load_dotenv() 
-
-def get_weather(city: str) -> str:
-    """Get weather for a given city."""
-    return f"It's always sunny in {city}!"
-
-
-#model_name = "qwen3.5:9b-q4_K_M"
-model_name = "qwen3.5:2b-q4_K_M"
+from config.models import get_model
+from config.settings import THREAD_CONFIG
+from prompts import load_system_prompt
+from tools import get_weather, send_to_codex
 
 agent = create_agent(
-    model=ChatOllama(model=model_name), #local model
-    #model=ChatOpenAI(model="gpt-6-luna", reasoning_effort="none"), #OpenAI api call model
-    tools=[get_weather],
-    system_prompt="You are a helpful assistant",
+    model=get_model(), #model options and their comments are in config/models.py
+    tools=[get_weather, send_to_codex],
+    system_prompt=load_system_prompt(),
+    checkpointer=InMemorySaver(), #conversation memory while this script is running
 )
 
-result = agent.invoke(
-    {"messages": [{"role": "user", "content": "What's the weather in San Francisco?"}]}
-)
-print(result["messages"][-1].content_blocks)
+# Reuse the same thread_id so each message belongs to this conversation.
+config = THREAD_CONFIG
+
+if __name__ == "__main__":
+    print("Agent started. Type 'exit' or 'quit' to leave.")
+
+    try:
+        while True:
+            user_input = input("\nYou: ").strip()
+
+            if user_input.lower() in {"exit", "quit"}:
+                break
+            if not user_input:
+                continue
+
+            # Send only the new message; the checkpointer keeps previous turns.
+            result = agent.invoke(
+                {"messages": [{"role": "user", "content": user_input}]},
+                config=config,
+            )
+            print(f"Agent: {result['messages'][-1].text}")
+    except (EOFError, KeyboardInterrupt):
+        print()
