@@ -2,3 +2,6 @@ langchain==1.4.2
 langchain-ollama==1.1.0
 langchain-openai==1.6.6
 python-dotenv==1.2.3
+onnx-asr[hub]==0.12.0
+onnxruntime-gpu[cuda,cudnn]==1.31.0
+sounddevice==0.5.6
