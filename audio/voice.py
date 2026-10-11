@@ -1,4 +1,4 @@
-"""Local Parakeet dictation, also usable without starting the agent."""
+"""Local Parakeet dictation; standalone usage: python -m audio.voice."""
 
 import argparse
 from pathlib import Path

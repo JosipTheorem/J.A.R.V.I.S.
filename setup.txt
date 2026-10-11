@@ -1,6 +1,24 @@
 1.) powershell: irm https://ollama.com/install.ps1 | iex
 2.) powershell: ollama pull qwen3.5:2b-q4_K_M
-3.) u PowerShellu otvori mapu projekta i kreiraj venv: py -m venv .venv
+3.) u PowerShellu otvori mapu projekta i kreiraj venv s Python 3.12: py -3.12 -m venv .venv
 4.) aktiviraj venv: .\.venv\Scripts\Activate.ps1
 5.) instaliraj pakete: python -m pip install -r requirements.txt
 6.) pokreni agenta: python agent.py
+
+NAKON POVLACENJA VOICE GRANE (ako vec imas postavljen projekt):
+1.) otvori PowerShell u mapi projekta i aktiviraj venv: .\.venv\Scripts\Activate.ps1
+2.) instaliraj/azuriraj sve Python pakete: python -m pip install -r requirements.txt
+3.) za GPU govor treba NVIDIA graficka i driver koji podrzava CUDA 13; po potrebi azuriraj driver.
+    CUDA Toolkit i cuDNN ne instaliras rucno, potrebni runtimeovi dolaze kroz requirements.txt.
+    Bez NVIDIA GPU-a u config/voice.py postavi DEVICE = "cpu" i TTS_MODEL = "supertonic".
+4.) pokreni Ollama aplikaciju. Ako nije pokrenuta, u drugom terminalu pokreni: ollama serve
+5.) pokreni agenta: python agent.py
+6.) upisi /voice, govori, Enter za kraj snimanja, pa Enter za slanje transkripta.
+
+Govorni modeli automatski se skidaju pri prvom koristenju (internet i nekoliko GB prostora).
+Modeli nisu u Git grani i prvo ucitavanje traje duze. Spoji mikrofon i slusalice/zvucnike.
+Postavke govora ostaju u config/voice.py; promjena modela u radu: /tts MODEL hr ili /tts MODEL en.
+Za ovu granu nema dodatnih Python instalacija izvan requirements.txt.
+Codex alat je iz ranije grane; za njega i dalje treba zasebno instaliran/prijavljen Codex.
+
+Ako dobijes WinError 10061 pri odgovoru agenta, provjeri je li Ollama pokrenuta (korak 4).

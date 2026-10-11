@@ -5,3 +5,14 @@ python-dotenv==1.2.3
 onnx-asr[hub]==0.12.0
 onnxruntime-gpu[cuda,cudnn]==1.31.0
 sounddevice==0.5.6
+
+# Local TTS. CUDA PyTorch supports the RTX 5070; all backends share this environment.
+# Match Parakeet's CUDA 13 runtime to avoid Windows DLL collisions.
+--extra-index-url https://download.pytorch.org/whl/cu130
+torch==2.11.0+cu130
+torchaudio==2.11.0+cu130
+sherpa-onnx==1.13.8
+omnivoice==0.2.1
+transformers==5.19.0
+pocket-tts==3.3.0
+soundfile==0.14.0
